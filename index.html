@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENARE 2026 - Banco de Questões</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Botões flutuantes */
+        .floating-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            background: white;
+        }
+
+        body.dark-mode .floating-btn {
+            background: #2d2d44;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .card {
+            background: #2d2d44;
+            color: #e0e0e0;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        body.dark-mode .header {
+            background: #2d2d44;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        body.dark-mode .header p {
+            color: #aaa;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        body.dark-mode h2 {
+            color: #e0e0e0;
+        }
+
+        /* Botões principais */
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Botão de finalizar (última questão) */
+        .btn-finish {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-finish:hover {
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        /* Slider de quantidade */
+        .slider-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .slider-label {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 1.1em;
+        }
+
+        body.dark-mode .slider-label {
+            color: #e0e0e0;
+        }
+
+        .slider-value {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        body.dark-mode .slider {
+            background: #444;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Grid de questões */
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .question-btn {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        body.dark-mode .question-btn {
+            background: #1a1a2e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        .question-btn:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+
+        /* Filtros */
+        .filter-section {
+            margin: 25px 0;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: block;
+            font-size: 1.05em;
+        }
+
+        body.dark-mode .filter-label {
+            color: #e0e0e0;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 18px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        body.dark-mode .filter-btn {
+            background: #1a1a2e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+            
+body.dark-mode .filter-btn.active {
+    background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%) !important;
+    color: white !important;
+    border-color: #9c27b0 !important;
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4) !important;
+}
+
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Busca */
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        body.dark-mode .search-box {
+            background: #1a1a2e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Timer */
+        .timer-option {
+            margin: 25px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        body.dark-mode .timer-option {
+            background: #1a1a2e;
+        }
+
+        .timer-option label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        body.dark-mode .timer-option label {
+            color: #e0e0e0;
+        }
+
+        .timer-option input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .timer-display {
+            position: fixed;
+            top: 140px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1.3em;
+            font-weight: bold;
+            z-index: 999;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        body.dark-mode .timer-display {
+            background: #2d2d44;
+            color: #e0e0e0;
+        }
+
+        /* Questões */
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .question-area {
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        body.dark-mode .progress-bar {
+            background: #1a1a2e;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 1.15em;
+            line-height: 1.8;
+            margin: 25px 0;
+            color: #333;
+        }
+
+        body.dark-mode .question-text {
+            color: #e0e0e0;
+        }
+
+        /* Opções */
+        .option-btn {
+            width: 100%;
+            padding: 18px;
+            margin: 12px 0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05em;
+            color: #333;
+        }
+
+        body.dark-mode .option-btn {
+            background: #1a1a2e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        .option-btn:hover:not(.correct):not(.incorrect) {
+            border-color: #667eea;
+            transform: translateX(5px);
+            background: #f8f9ff;
+        }
+
+        body.dark-mode .option-btn:hover:not(.correct):not(.incorrect) {
+            background: #252541;
+            border-color: #667eea;
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            border-color: #667eea;
+        }
+
+        .option-btn.correct {
+            background: #28a745 !important;
+            color: white !important;
+            border-color: #28a745 !important;
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option-btn.incorrect {
+            background: #dc3545 !important;
+            color: white !important;
+            border-color: #dc3545 !important;
+            animation: incorrectShake 0.5s ease;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Explicação */
+        .explanation-container {
+            margin-top: 30px;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation-card {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+        }
+
+        body.dark-mode .explanation-card {
+            background: linear-gradient(135deg, #3d3d00 0%, #4d4d00 100%);
+            border-color: #ffc107;
+        }
+
+        .explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #856404;
+        }
+
+        body.dark-mode .explanation-header {
+            color: #ffeb3b;
+        }
+
+        .explanation-icon {
+            font-size: 1.5em;
+        }
+
+        .explanation-content {
+            color: #856404;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        body.dark-mode .explanation-content {
+            color: #ffeb3b;
+        }
+
+        .explanation-content strong {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 1.15em;
+            color: #664d03;
+        }
+
+        body.dark-mode .explanation-content strong {
+            color: #ffd700;
+        }
+
+        /* Estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.8em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.95;
+        }
+
+        /* Utilitários */
+        .hidden {
+            display: none;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .btn-group {
+                grid-template-columns: 1fr;
+            }
+
+            .questions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            }
+
+            .floating-buttons {
+                flex-direction: row;
+                gap: 8px;
+            }
+
+            .floating-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+            }
+
+            .timer-display {
+                top: 20px;
+                right: auto;
+                left: 20px;
+                font-size: 1.1em;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Botões flutuantes -->
+    <div class="floating-buttons">
+        <button class="floating-btn" id="themeBtn" onclick="toggleTheme()" title="Alternar tema">🌙</button>
+        <button class="floating-btn hidden" id="homeBtn" onclick="voltarInicio()" title="Voltar ao início">🏠</button>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer-display hidden" id="timerDisplay">
+        <div style="font-size: 0.8em; opacity: 0.8;">⏱️</div>
+        <div id="timerValue">00:00</div>
+    </div>
+
+    <div class="container">
+        <!-- TELA INICIAL -->
+        <div id="homeScreen">
+            <div class="header">
+                <h1>🎯 Tô aprovado ENARE! 🏥</h1>
+                <p style="font-size: 0.95em; margin-top: -10px; margin-bottom: 10px; opacity: 0.9; font-style: italic;">Por Eduardo Chaves Queiroz</p>
+                <p>Prepare-se para o Exame Nacional de Residência com 50 questões oficiais</p>
+            </div>
+
+            <div class="card">
+                <h2>📚 Escolha o modo de estudo</h2>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="showRandomConfig()">
+                        🎲 Praticar Aleatoriamente
+                    </button>
+                    <button class="btn btn-primary" onclick="showSpecificConfig()">
+                        🎯 Selecionar Questão
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Estatísticas do Banco</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">50</div>
+                        <div class="stat-label">Questões Disponíveis</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Áreas Médicas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Comentadas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONFIGURAÇÃO ALEATÓRIA -->
+        <div id="randomConfig" class="hidden">
+            <div class="card">
+                <h2>🎲 Configurar Prática Aleatória</h2>
+
+                <div class="slider-container">
+                    <label class="slider-label">Quantas questões você deseja fazer?</label>
+                    <div class="slider-value" id="sliderValue">10</div>
+                    <input type="range" class="slider" id="numQuestions" min="1" max="50" value="10" oninput="updateSliderValue(this.value)">
+                    <div style="margin-top: 10px; opacity: 0.7; font-size: 0.9em;">Disponível: 50 questões</div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="filter-label">Filtrar por área (opcional):</label>
+                    <div class="filter-buttons" id="areaFilters">
+                        <button class="filter-btn active" onclick="selectFilter(this, 'all')">Todas</button>
+                        <button class="filter-btn" onclick="selectFilter(this, 'Clínica Médica')">Clínica Médica</button>
+                        <button class="filter-btn" onclick="selectFilter(this, 'Cirurgia')">Cirurgia</button>
+                        <button class="filter-btn" onclick="selectFilter(this, 'Pediatria')">Pediatria</button>
+                        <button class="filter-btn" onclick="selectFilter(this, 'Ginecologia e Obstetrícia')">Ginecologia e Obstetrícia</button>
+                        <button class="filter-btn" onclick="selectFilter(this, 'Preventiva')">Preventiva</button>
+                    </div>
+                </div>
+
+                <div class="timer-option">
+                    <label>
+                        <input type="checkbox" id="enableTimer">
+                        <span>⏱️ Ativar cronômetro (2 minutos por questão)</span>
+                    </label>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="startRandom()">🚀 Iniciar Prática</button>
+                    <button class="btn btn-secondary" onclick="voltarInicio()">← Voltar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SELEÇÃO ESPECÍFICA -->
+        <div id="specificConfig" class="hidden">
+            <div class="card">
+                <h2>🎯 Selecionar Questão Específica</h2>
+
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar por palavra-chave na questão..." oninput="filterQuestions()">
+
+                <div class="filter-section">
+                    <label class="filter-label">Filtrar por área:</label>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterByArea(this, 'all')">Todas</button>
+                        <button class="filter-btn" onclick="filterByArea(this, 'Clínica Médica')">Clínica Médica</button>
+                        <button class="filter-btn" onclick="filterByArea(this, 'Cirurgia')">Cirurgia</button>
+                        <button class="filter-btn" onclick="filterByArea(this, 'Pediatria')">Pediatria</button>
+                        <button class="filter-btn" onclick="filterByArea(this, 'Ginecologia e Obstetrícia')">Ginecologia e Obstetrícia</button>
+                        <button class="filter-btn" onclick="filterByArea(this, 'Preventiva')">Preventiva</button>
+                    </div>
+                </div>
+
+                <label class="filter-label" style="margin-top: 25px;">Clique no número da questão que deseja responder:</label>
+                <div class="questions-grid" id="questionsGrid"></div>
+
+                <div class="btn-group" style="margin-top: 25px;">
+                    <button class="btn btn-secondary" onclick="voltarInicio()">← Voltar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÁREA DE QUESTÕES -->
+        <div id="questionArea" class="hidden">
+            <div class="card">
+                <div class="question-header">
+                    <span class="question-number" id="questionNum"></span>
+                    <span class="question-area" id="questionCategory"></span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+
+                <div class="question-text" id="questionText"></div>
+
+                <div id="optionsContainer"></div>
+
+                <div id="explanationContainer" class="hidden"></div>
+
+                <div class="btn-group hidden" style="margin-top: 25px;" id="nextBtnContainer">
+                    <button class="btn btn-success" id="nextBtn" onclick="nextQuestion()">
+                        <span id="nextBtnText">Próxima Questão →</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINALIZAÇÃO MODO ESPECÍFICO -->
+        <div id="specificFinish" class="hidden">
+            <div class="card">
+                <h2 style="text-align: center; color: #28a745;">✅ Questão Concluída!</h2>
+                <p style="text-align: center; margin: 25px 0; font-size: 1.15em; color: #666;">O que deseja fazer agora?</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="showSpecificConfig()">
+                        🎯 Resolver Outra Questão
+                    </button>
+                    <button class="btn btn-secondary" onclick="voltarInicio()">
+                        🏠 Voltar ao Início
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTATÍSTICAS FINAIS -->
+        <div id="statsScreen" class="hidden">
+            <div class="card">
+                <h2 style="text-align: center;">📊 Resultado Final</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalQuestions">0</div>
+                        <div class="stat-label">Total de Questões</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="correctAnswers">0</div>
+                        <div class="stat-label">Acertos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="incorrectAnswers">0</div>
+                        <div class="stat-label">Erros</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="finalPercentage">0%</div>
+                        <div class="stat-label">Aproveitamento</div>
+                    </div>
+                </div>
+
+                <div class="btn-group" style="margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="showRandomConfig()">🔄 Nova Prática</button>
+                    <button class="btn btn-secondary" onclick="voltarInicio()">🏠 Página Inicial</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de 50 questões ENARE 2026
+        const questions = [
+            {id:1,area:"Clínica Médica",question:"Homem de 34 anos, febre (38,5°C), dores moderadas, manchas há 3d. Hoje: dor abdominal e vômitos incontroláveis. Prostrado, mucosas coradas, extremidades bem perfundidas. PA 120x80, FR 16, FC 80. Leve dor palpação abdominal. Hipótese diagnóstica e manejo:",options:["Dengue grupo B. Hidratação oral, analgésico, antiemético; hemograma, plaquetas, NS1; acompanhamento domiciliar.","Dengue grupo C. Hidratação oral, analgésico, antiemético; hemograma, plaquetas, IgM; acompanhamento ambulatorial.","Dengue grupo C. Hidratação parenteral, analgésico, antiemético; hemograma, plaquetas, NS1; leito observação.","Dengue grupo B. Hidratação parenteral, analgésico, antiemético; hemograma, plaquetas, NS1, IgM; leito observação."],correct:2,explanation:"Dengue grupo C (sinais de alarme): vômitos incontroláveis, dor abdominal. Requer hidratação venosa e observação hospitalar. NS1 positivo nos primeiros dias. Não há hipotensão ou choque (grupo D)."},
+            {id:2,area:"Cirurgia",question:"Mulher de 27 anos: dor abdominal epigástrica há 2d, contínua, evoluiu para FID há 1d. Náuseas, perda apetite, febre 38,2°C. Última menstruação há 23d (ciclos 28d). Descompressão brusca dolorosa QID. Conduta:",options:["Antibiótico empírico até urocultura.","TC abdome e iniciar metotrexato.","Antibiótico empírico e acompanhamento ambulatorial.","USG abdome e parecer cirúrgico."],correct:3,explanation:"Apendicite aguda: dor epigástrica migrando para FID, febre, náuseas, descompressão brusca positiva (Blumberg). Mulher em idade fértil: excluir gravidez ectópica. USG para diagnóstico diferencial, parecer cirúrgico para indicação operatória urgente."},
+            {id:3,area:"Clínica Médica",question:"Mulher trans de 28 anos, profissional do sexo. Relações desprotegidas, principalmente anais receptivas. Há 2 dias: relação desprotegida. Nunca usou PrEP/PEP. Assintomática. Melhor estratégia:",options:["PrEP após HIV não reagente, PEP após tratamento, rastreamento ISTs 3/3m.","Teste rápido HIV/sífilis, PrEP início imediato, vacinas SUS.","Teste rápido HIV/sífilis, PEP se HIV não reagente, iniciar PrEP após término PEP.","PEP e PrEP concomitantes, sorologias ISTs, retorno."],correct:2,explanation:"Exposição há 2 dias: indicação PEP (até 72h). Fazer teste rápido HIV, se negativo iniciar PEP 28 dias. Alto risco contínuo: após término PEP, iniciar PrEP. Não se inicia PrEP durante PEP."},
+            {id:4,area:"Preventiva",question:"Homem de 52 anos, tabagista 2 maços/dia há 21 anos, sem acompanhamento desde 35 anos. História familiar: DM, HAS, mãe com CA pulmão. PA 120x80, IMC 23. Rastreamento adequado:",options:["CT frações, hemograma, glicemia, Cr, PSA, RX tórax, colonoscopia, toque retal; orientar atividade física.","CT, glicemia, sangue oculto fezes, PSA, anti-HIV, HBsAg, toque retal; grupo cessação tabagismo.","abordar estilo de vida e cessação; acompanhar em consultas, exames quando atingir faixa etária.","CT, HDL, TG, glicemia, sangue oculto fezes, testes rápidos HIV/sífilis/hepatites; cessação tabagismo."],correct:3,explanation:"Rastreamentos indicados: DM (glicemia), dislipidemia (perfil lipídico), CA colorretal (sangue oculto - idade 50-75), ISTs (oferecer testes). Foco na cessação do tabagismo (principal risco)."},
+            {id:5,area:"Clínica Médica",question:"Homem de 28 anos com lesão cutânea dorsal da mão 1 mês após arranhadura de gato. Úlceras com crostas e nodulações próximas. Biópsia: dermatite granulomatosa, corpos asteroides. Diagnóstico e tratamento:",options:["Furunculose; cefalexina 7 dias.","Herpes-zoster; aciclovir 10 dias.","Esporotricose; itraconazol 120 dias.","Paracoccidioidomicose; anfotericina B 30 dias."],correct:2,explanation:"Esporotricose: micose subcutânea por Sporothrix. Trauma inocula fungo (plantas, solo, unhas de animais). Forma linfocutânea típica: lesão + nodulações no trajeto linfático. Corpos asteroides são característicos. Tratamento: itraconazol 3-6 meses."},
+            {id:6,area:"Clínica Médica",question:"Homem de 35 anos, dor articular sacroilíaca e coluna, pior à noite/repouso, melhora com movimento. Rigidez matinal >1h. Dor calcâneos. HLA-B27 positivo. RX: sacroiliíte bilateral. Diagnóstico:",options:["Artrite reativa.","Artrite psoriática.","Espondilite anquilosante.","LES."],correct:2,explanation:"Espondilite anquilosante: espondiloartrite soronegativa. Dor inflamatória coluna/sacroilíaca (melhora movimento, piora repouso), rigidez matinal >30min, entesite. HLA-B27+ em 90%. RX: sacroiliíte. Tratamento: AINE, fisioterapia."},
+            {id:7,area:"Clínica Médica",question:"Homem de 48 anos, auxiliar pedreiro, dor lombar há 3 sem, insidiosa, sem irradiação. Piora fim do dia, melhora repouso/paracetamol. Nega perda peso, febre, trauma, incontinência, fraqueza MMII. Dor palpação paravertebral lombar, sem alterações neurológicas. Próximo passo:",options:["RNM coluna lombar e encaminhar ortopedia.","RX lombar, corticoide oral, retorno 10d.","Repouso, atestado 7d, antidepressivo tricíclico.","Explicar natureza benigna, analgesia, atividade física leve, reavaliar 4-6 sem."],correct:3,explanation:"Lombalgia inespecífica/mecânica: sem red flags (perda peso, febre, trauma significativo, déficit neurológico, incontinência). Conduta conservadora: orientação, analgesia, manter atividade. Exames de imagem não mudam conduta inicialmente."},
+            {id:8,area:"Cirurgia",question:"Mulher de 78 anos, dor e abaulamento inguinal direito há 24h. Vômitos, diminuição de flatos. IMC 35. Abaulamento não redutível, desconforto, discreta hiperemia. Hipótese:",options:["isquemia mesentérica.","hérnia inguinal indireta.","hérnia femoral encarcerada.","neoplasia de cólon obstrutiva."],correct:2,explanation:"Hérnia femoral encarcerada: mais comum em mulheres idosas. Abaulamento inguinal (abaixo ligamento inguinal, medial), não redutível, obstrução intestinal. Hiperemia=complicação. Maior risco de estrangulamento que inguinal."},
+            {id:9,area:"Cirurgia",question:"Menino de 6 anos, queixa fimose. Mãe relata balanopostites frequentes, 1º episódio 1a. Nega ITU. EF: prepúcio cobrindo glande, quando tracionado expõe meato e anel fibrótico. Conduta:",options:["Fimose fisiológica, exercícios redução e higiene.","Indicação cirúrgica adolescência, pois expõe meato.","Indicação cirúrgica: balanopostites recorrentes com fibrose.","Betametasona + hialuronidase 4 sem, pois expõe meato."],correct:2,explanation:"Fimose patológica com indicação cirúrgica: balanopostites recorrentes (complicação) + anel fibrótico (não permite retração completa). Fimose fisiológica resolve até 3-5 anos."},
+            {id:10,area:"Cirurgia",question:"Homem de 20 anos, trauma automóvel-muro sem cinto. Torporoso, SatO2 60%, FR 28, FC 112, PA 90x50. Desvio traqueia à direita, turgência jugular, hipofonese bulhas, MV diminuído à esquerda. Conduta pré-hospitalar:",options:["Reposição volêmica.","Cricotireoidostomia.","Pericardiocentese.","Toracocentese."],correct:3,explanation:"Pneumotórax hipertensivo à esquerda: desvio traqueia contralateral, turgência jugular, hipofonese, hipoxemia, hipotensão. Emergência com risco de vida imediato. Tratamento: toracocentese (descompressão por agulha no 2º EIC linha hemiclavicular)."},
+            {id:11,area:"Ginecologia e Obstetrícia",question:"G5P3C1, 35 anos, IG 15 sem (USG 8 sem), HAS crônica em enalapril, antecedente pré-eclâmpsia. PA 140x90. Conduta medicamentosa:",options:["Captopril, varfarina, AAS.","Furosemida, varfarina, cálcio.","Losartana, enoxaparina, cálcio.","Alfa-metildopa, AAS, cálcio."],correct:3,explanation:"Gestante hipertensa: trocar IECA (enalapril/captopril - teratogênicos) e BRA (losartana) por alfa-metildopa. Antecedente pré-eclâmpsia: AAS 100-150mg/dia <16 sem previne recorrência. Cálcio 1-2g/dia."},
+            {id:12,area:"Clínica Médica",question:"Mulher de 65 anos: lentidão há 6m, dificuldade amarrar sapatos/abotoar. Passos curtos, instabilidade, 1 queda. Tremor repouso, rigidez, alteração sono. Nega alterações cognitivas. Fácies máscara, marcha pequenos passos, tremor assimétrico, hipertonia roda dentada. RNM: atrofia compatível com idade. Tratamento inicial:",options:["levodopa e carbidopa.","donepezila e memantina.","propranolol e amantina.","atorvastatina e baclofeno."],correct:0,explanation:"Doença de Parkinson: tríade bradicinesia + rigidez + tremor de repouso. Sinais: fácies em máscara, marcha festinante, hipertonia em roda dentada, tremor assimétrico. Tratamento sintomático: levodopa + carbidopa."},
+            {id:13,area:"Preventiva",question:"Mulher de 32 anos, trabalhadora rural (plantio morango). Após pulverização agrotóxicos: tonturas, cefaleia, cansaço, náuseas, falta de ar. Colega com queixas similares. Conduta adequada:",options:["Encaminhar ao CEREST estadual e denúncia ao MPT.","Estabelecer nexo causal com exames, confirmar diagnóstico, notificar Vigilância.","Tratar sintomas, exames, notificar SINAN, atestado, matriciamento Vigilância ST.","Informar que CAT é atribuição exclusiva da medicina do trabalho no CEREST."],correct:2,explanation:"Conduta na APS: tratamento imediato, solicitar exames (colinesterase), notificação compulsória SINAN (intoxicação por agrotóxico), conceder atestado e solicitar apoio matricial da Vigilância em Saúde do Trabalhador."},
+            {id:14,area:"Ginecologia e Obstetrícia",question:"Paciente de 30 anos com fadiga, dismenorréia progressiva e dispareunia de profundidade. Toque vaginal: útero retroversofletido, dor à mobilização do colo. A principal hipótese diagnóstica é",options:["doença inflamatória pélvica.","miomatose uterina.","cisto hemorrágico.","endometriose."],correct:3,explanation:"Tríade clássica de endometriose: dismenorréia progressiva, dispareunia de profundidade e dor à mobilização uterina. Útero retroversofletido pode estar fixo por aderências endometrióticas. Principal causa de dismenorréia secundária."},
+            {id:15,area:"Pediatria",question:"Criança de 3 anos, febre há 4 dias (40°C), irritabilidade, exantema, hiperemia conjuntival, fissuras labiais, língua framboesa, adenomegalia cervical, edema mãos/pés. Conduta:",options:["AAS + imunoglobulina endovenosa.","Amoxicilina 10 dias.","Corticoide sistêmico.","Observação, auto-limitada."],correct:0,explanation:"Doença de Kawasaki: febre ≥5 dias + ≥4 critérios (exantema, conjuntivite não-exsudativa, alterações lábios/língua, adenopatia cervical, alterações extremidades). Complicação: aneurismas coronarianos. Tratamento: AAS + imunoglobulina EV."},
+            {id:16,area:"Ginecologia e Obstetrícia",question:"Primigesta 29 anos, 41 sem, risco habitual. Preocupada com duração gravidez. Assintomática, MF presente, EF normal. Perfil biofísico há 1d normal. Conduta:",options:["Repouso domiciliar, indução após 42 sem.","Dopplervelocimetria obstétrica, planejar manejo conforme resultado.","Amnioscopia para mecônio, planejar conforme resultado.","Perfil biofísico + CTG a cada 2-3d, indução até 41s6d."],correct:3,explanation:"Gestação pós-termo (41 semanas): aumenta riscos (morte fetal, mecônio, macrossomia). Conduta: vigilância fetal rigorosa (perfil biofísico + CTG) a cada 2-3 dias. Indução programada entre 41-42 semanas (idealmente até 41s6d)."},
+            {id:17,area:"Ginecologia e Obstetrícia",question:"Gestante de 25 anos, 2º trimestre, 1ª consulta pré-natal. Teste rápido sífilis positivo. Recebeu penicilina benzatina 2,4M UI. Nega tratamento prévio. Sobre acompanhamento:",options:["com tratamento, feto não terá sequelas.","titulações ≤ 1/4 indicam cicatriz sorológica.","queda de 2 titulações do VDRL indica efetividade.","FTA-Abs reagente indica doença ativa."],correct:2,explanation:"Efetividade do tratamento: queda de 2 diluições (4x) do VDRL em 6-12 meses. FTA-Abs permanece reagente mesmo após cura (memória imunológica). Tratamento adequado reduz risco fetal mas não elimina."},
+            {id:18,area:"Clínica Médica",question:"Multípara, 37 sem, obesa, DMG controlada com insulina NPH e regular. Parto normal, RN 3300g. Conduta puerpério imediato:",options:["suspender insulinoterapia.","iniciar hipoglicemiante oral.","manter NPH 1/3 da dose.","manter insulinoterapia dose pré-natal."],correct:0,explanation:"Diabetes mellitus gestacional: após parto, resistência insulínica da gestação regride rapidamente. Suspender insulina no pós-parto imediato, monitorar glicemias. Reclassificar diabetes 6-12 semanas pós-parto (TOTG)."},
+            {id:19,area:"Clínica Médica",question:"Mulher de 86 anos, quedas frequentes. HAS, DM2, dislipidemia, depressão, déficit cognitivo leve, constipação. Usa: losartana, HCTZ, atenolol, metformina, gliclazida, rosuvastatina, escitalopram, donepezila, lactulose. Quedas diversos horários, mais madrugada (levantar ao banheiro). Bradipsiquismo, sarcopenia. PA deitada 138x92, sentada 110x70. Plano terapêutico:",options:["Avaliar oftalmológica para catarata.","Encaminhar neurologista investigar disautonomia.","Rever polifarmácia para reduzir fármacos hipotensores.","Adicionar fludrocortisona para elevar PA."],correct:2,explanation:"Hipotensão ortostática (queda PA >20/10 mmHg) + polifarmácia anti-hipertensiva (losartana + HCTZ + atenolol) em idosa frágil. Deprescrição: retirar/reduzir hipotensores desnecessários, priorizando HCTZ e betabloqueador."},
+            {id:20,area:"Clínica Médica",question:"Mulher de 58 anos, com diagnóstico de hipertensão arterial sistêmica (HAS) e em tratamento irregular, é encaminhada ao ambulatório de clínica médica de atenção secundária. Queixa-se de fadiga e dispneia aos esforços, com piora progressiva. Ao exame físico, é observado ritmo cardíaco regular em 4 tempos (B3 + B4), sem sopros no precórdio, mas com crépitos em bases pulmonares; pressão arterial: 148 x 90 mmHg. Ecocardiograma transtorácico evidencia hipertrofia ventricular esquerda concêntrica, associada com fração de ejeção de 38%. Para melhorar o controle da HAS e o prognóstico da paciente, o fármaco introduzido foi",options:["espironolactona.","clortalidona.","hidralazina.","clonidina."],correct:0,explanation:"A paciente apresenta IC com FE reduzida (38%). A espironolactona, antagonista da aldosterona, reduz mortalidade em IC-FER quando associada ao IECA (estudo RALES). Indicada em sintomas persistentes com FE < 40%."},
+            {id:21,area:"Ginecologia e Obstetrícia",question:"Mulher de 28 anos, corrimento vaginal abundante, amarelo-esverdeado, odor fétido, prurido. Colo 'morango'. pH vaginal 6,0. Tratamento:",options:["Metronidazol oral + tratar parceiro.","Fluconazol dose única.","Clindamicina vaginal.","Azitromicina dose única."],correct:0,explanation:"Tricomoníase: corrimento amarelo-esverdeado espumoso, odor fétido, pH >4,5, colo em 'morango' (colpitis macularis). Causada por Trichomonas vaginalis. Tratamento: metronidazol 2g dose única ou 500mg 7 dias VO. Tratar parceiro obrigatoriamente."},
+            {id:22,area:"Clínica Médica",question:"Mulher de 82 anos, sem história HAS prévia. PA farmácia há 1 sem: 146x86. UBS há 2 sem: 144x88. Hoje: 148x88. Assintomática. Abordagem adequada:",options:["Referenciar cardiologista.","Holter 24h e ECO.","Losartana 50mg à noite, monitorar PA.","Conduta expectante, monitorar PA."],correct:3,explanation:"Idosos >80 anos: alvo PA sistólica 130-139 mmHg se tolerado. PA limítrofe (144-148), assintomática, primeira avaliação. Conduta expectante com monitoramento adequado antes de iniciar medicação."},
+            {id:23,area:"Preventiva",question:"Teste triagem hanseníase: sensibilidade 92%, especificidade 65%, população baixa prevalência. É correto:",options:["quase todos testes positivos indicarão casos verdadeiros, pela alta sensibilidade.","número de falsos-positivos elevado, pela baixa especificidade e baixa prevalência.","número de falsos-negativos elevado, reduzindo capacidade detectar casos.","alta sensibilidade torna ideal para confirmação diagnóstica."],correct:1,explanation:"Baixa prevalência + baixa especificidade = muitos falsos-positivos. VPP diminui quando prevalência é baixa, mesmo com alta sensibilidade. Alta sensibilidade é boa para triagem (poucos falsos-negativos)."},
+            {id:24,area:"Ginecologia e Obstetrícia",question:"Nulípara de 30 anos, LES, trombose venosa recente. Ciclos 8-10 dias, sangramento intenso, cólicas fortes. Melhor contracepção:",options:["DIU cobre.","DIU levonorgestrel.","Anticoncepcional injetável mensal.","Pílula combinada contínua."],correct:1,explanation:"LES + trombose = contraindicação absoluta a estrogênio (categoria 4). DIU levonorgestrel: progestagênio, seguro, reduz sangramento menstrual (vantagem nesta paciente). DIU cobre piora sangramento."},
+            {id:25,area:"Clínica Médica",question:"Mulher de 70 anos, tosse produtiva há 3 sem, dispneia, febre baixa, emagrecimento 5kg/2m. Tabagista 40 anos/maço. RX: consolidação lobo superior direito com cavitação. Conduta:",options:["Amoxicilina-clavulanato 7 dias.","Solicitar escarro BAAR, iniciar esquema RIPE.","TC tórax para investigar neoplasia.","Aguardar cultura escarro."],correct:1,explanation:"Tuberculose pulmonar: tosse >2-3 sem, febre baixa, emagrecimento, cavitação lobo superior. Tabagismo é fator de risco. Conduta: colher escarro para BAAR e cultura, iniciar tratamento empírico se suspeita alta. Esquema RIPE."},
+            {id:26,area:"Cirurgia",question:"Mulher de 72 anos: emagrecimento e dor abdominal→dorsal há 3m. Há 1m: colúria, prurido, icterícia. EF: ictérica +++, emagrecida, fígado palpável, massa cística hipocôndrio direito. Exame adequado:",options:["USG avaliar colecistite crônica calculosa.","TC avaliar vias biliares e pâncreas.","Colangiopancreatografia RM avaliar coledocolitíase.","Biópsia percutânea massa avaliar neoplasia."],correct:1,explanation:"Tríade de Courvoisier: icterícia obstrutiva + vesícula palpável + emagrecimento = neoplasia periampular (cabeça pâncreas/ampola/colédoco distal). TC é padrão-ouro para estadiamento câncer pâncreas."},
+            {id:27,area:"Clínica Médica",question:"Homem de 68 anos, HAS/DM/FA tratamento irregular. Rebaixamento consciência + déficit neurológico esquerdo braquiofacial há 90min. Glasgow 9, hemiparesia esquerda, PA 170x100, FC 96 irregular. Glicemia 285. TC: hipodensidade 40% território ACM direita, laudo 3h após último momento visto sem déficit. Contraindicação trombólise:",options:["isquemia > 1/3 território ACM.","tempo superior ao limite máximo.","glicemia > 200 mg/dL > 2h pós-prandial.","níveis pressóricos superiores ao permitido."],correct:0,explanation:"Contraindicações relativas trombólise: isquemia precoce extensa (>1/3 território ACM) aumenta risco transformação hemorrágica. Janela terapêutica rtPA: até 4,5h do início. Glicemia >400 é contraindicação relativa."},
+            {id:28,area:"Preventiva",question:"Mulher de 21 anos, amenorreia 4m. Iniciou dieta há 10m, emagreceu 30kg. Há 2d: desmaio exercício, ECG alterado. Mora sozinha. IMC 14,7, PA 80x60, FC 55, FR 15. Conduta:",options:["Internar enfermaria clínica médica.","Internar enfermaria saúde mental.","Continuar investigação amenorreia na UBS.","Acompanhar ambulatório CAPS."],correct:0,explanation:"Anorexia nervosa grave com instabilidade clínica: IMC <15 (grave), hipotensão, bradicardia, síncope, alterações ECG. Critérios para internação hospitalar clínica: instabilidade hemodinâmica, arritmias, desnutrição grave."},
+            {id:29,area:"Pediatria",question:"Violência contra adolescentes. Situação para notificar Conselho Tutelar:",options:["Manuel, 15a, abandonado, família acolhedora, febre, petéquias→púrpuras, rigidez nuca, vacinas desconhecidas.","Michele, 13a, mora com tios temporariamente, equimoses múltiplos estágios há 1m, evita falar.","Felipe, 11a, abrigo desde 9a, recolhido 3d, febre, dor corpo/retro-orbitária, sangramento gengival, petéquias.","Edilene, 16a, medida socioeducativa, equimoses, suores noturnos, febre, perda peso, linfonodos aumentados."],correct:1,explanation:"Notificação obrigatória: suspeita de violência. Michele apresenta equimoses em múltiplos estágios (sugestivo de lesões repetidas em tempos diferentes), evita falar (pode indicar abuso/medo). Manuel: meningococcemia. Felipe: provável dengue. Edilene: investigar linfoma."},
+            {id:30,area:"Cirurgia",question:"Homem de 30 anos, trauma abdominal fechado (queda 3m). PA 80x50, FC 130, pálido, sudoreico. Abdome tenso, doloroso difusamente, sem RHA. FAST positivo. Conduta:",options:["TC abdome com contraste.","Reposição volêmica e reavaliação.","Laparotomia exploradora imediata.","Observação em leito de emergência."],correct:2,explanation:"Trauma abdominal fechado com instabilidade hemodinâmica (choque classe III) + FAST positivo (líquido livre = provável hemoperitônio). Indicação de laparotomia exploradora imediata. Não retardar para TC."},
+            {id:31,area:"Pediatria",question:"Adolescente de 12 anos para atualizar vacinas. Até 8 anos todas em dia, 1 dose febre amarela aos 9m. Calendário 2024-2025. Deve receber:",options:["HPV, reforço hep B, dT.","Reforço hep B, dT, SCR.","HPV, meningocócica ACWY, febre amarela.","SCR, meningocócica ACWY, febre amarela."],correct:2,explanation:"Calendário adolescente 2024-2025: HPV (9-14 anos, 2 doses), meningocócica ACWY (11-12 anos, reforço), febre amarela (reforço 10 anos após 1ª dose, ou seja, aos 9a9m≈10a)."},
+            {id:32,area:"Pediatria",question:"Menino de 10 anos, urbano, dor cotovelo direito há 1d. Há 1 sem: febre 38,5°C 1-2x/dia, joelho direito doloroso/inchado. Após 4d melhorou joelho, tornozelo direito ficou inchado/avermelhado/doloroso, melhorou 2d. Há 3 sem: dor garganta. Nega contato animais. Dificuldade movimentar cotovelo (dor/edema), FC 110, 2B rítmicas, sopro sistólico 3+/6+. Agente etiológico e tratamento:",options:["Borrelia burgdorferi; doxiciclina.","Staphylococcus aureus; oxacilina.","Treponema pallidum; penicilina G benzatina.","Streptococcus pyogenes; penicilina G benzatina."],correct:3,explanation:"Febre reumática: faringite estreptocócica há 2-3 semanas + artrite migratória (joelho→tornozelo→cotovelo) + cardite (sopro novo). Critérios Jones: 2 maiores ou 1 maior + 2 menores. Tratamento: penicilina benzatina."},
+            {id:33,area:"Clínica Médica",question:"Homem de 48 anos reinicia TB. Tratamento há 6m, interrompeu há 2m (drogas). TRM-TB, baciloscopia e RX solicitados. Conduta adequada:",options:["Se TRM-TB+ sem resistência rifampicina, e BAAR-, reiniciar esquema básico.","Se TRM-TB- e BAAR+, reiniciar básico se resistência rifampicina+.","Se TRM-TB- e BAAR+, cultura com TS, reiniciar básico aguardando cultura.","Se TRM-TB+ com resistência rifampicina, e BAAR+, cultura com TS, reiniciar básico aguardando."],correct:2,explanation:"Retratamento após abandono: TRM-TB negativo não exclui TB. BAAR+ confirma micobactéria. Solicitar cultura + TSA para avaliar resistência. Reiniciar esquema básico enquanto aguarda (tratamento não pode atrasar)."},
+            {id:34,area:"Preventiva",question:"Homem de 60 anos, DM2, nega sintomas urinários. EAS: glicosúria, proteinúria, 100.000 UFC/mL E. coli. Conduta:",options:["Antibiótico 7 dias.","Não tratar, bacteriúria assintomática.","Antibiótico 14 dias + investigar complicações.","Aguardar sintomas para tratar."],correct:2,explanation:"Bacteriúria assintomática em diabético: tratar (diferente da população geral). DM é fator de risco para complicações. Tratamento: 7-14 dias (preferir 14 dias em diabéticos). Investigar fatores predisponentes."},
+            {id:35,area:"Preventiva",question:"Menino de 10 anos. Pais relatam: fica irritado, agressivo quando contrariado; feliz quando consegue o que quer; não assume culpa; discute com adultos; não aceita regras. Diagnóstico provável:",options:["Transtorno afetivo bipolar.","Transtorno de oposição desafiante.","Transtorno disruptivo da desregulação do humor.","TDAH."],correct:1,explanation:"Transtorno de oposição desafiante: padrão de comportamento negativista, hostil e desafiador por ≥6 meses. Características: discute com autoridades, não aceita regras, irrita deliberadamente, não assume responsabilidade, irritável quando contrariado."},
+            {id:36,area:"Clínica Médica",question:"Homem de 55 anos, DM, metformina 850mg 3x/dia, gliclazida 30mg 1x/dia há >6m. HbA1c 9,5%, creatinina 0,8. Conduta adequada:",options:["Suspender orais, NPH 10UI manhã + 20UI noite, monitorar pré-prandial, depois pós-prandial, iniciar regular.","Aumentar gliclazida 60mg, metformina 1g 3x/dia, repetir 1m, insulinizar se alterado.","Manter metformina, adicionar insulina NPH, titular conforme glicemias, manter gliclazida se HbA1c < 8%.","Suspender gliclazida, manter metformina, adicionar agonista GLP-1, reavaliar 3m."],correct:2,explanation:"HbA1c 9,5% (meta <7-8%): falha terapêutica. Metformina dose máxima. Conduta: adicionar insulina basal (NPH ou análoga longa) 10UI ao deitar, titular conforme glicemia jejum. Manter metformina (reduz dose insulina, benefícios CV)."},
+            {id:37,area:"Clínica Médica",question:"Homem de 36 anos, tabagista, ascensorista. Tosse seca >3 sem, febre vespertina, dispneia esforços, dor infraescapular esquerda. Emagrecido, descorado. MV diminuído e macicez base esquerda. Exame e conduta:",options:["RNM; programação cirúrgica.","TC tórax; lobectomia segmentar.","TC tórax; drenagem tórax.","USG; toracocentese."],correct:3,explanation:"Derrame pleural (MV diminuído + macicez): tosse, dispneia, dor pleurítica. Febre + emagrecimento sugerem empiema ou TB pleural. Conduta: toracocentese diagnóstica (USG localiza). Análise líquido: bioquímica, citologia, cultura, ADA."},
+            {id:38,area:"Cirurgia",question:"Homem de 45 anos encontrado inconsciente junto a escada. TCE com alteração de consciência, amnésia, equimose orbital e cervical posterior. A conduta adequada é:",options:["TC crânio, face e coluna cervical; RX membros; observação 12h.","RX crânio, coluna cervical e membros; internar para observação.","TC crânio, face e RX membros; liberar para observação domiciliar.","RX crânio e face; RX membros; internar 24h."],correct:0,explanation:"TCE moderado com perda de consciência e amnésia requer TC (não RX). Lesão cervical posterior indica necessidade de TC de coluna cervical. Observação hospitalar 12-24h é mandatória para monitorar complicações."},
+            {id:39,area:"Preventiva",question:"Sobre internação involuntária no Brasil, é correto afirmar que:",options:["é determinada pela Justiça.","é autorizada por médico registrado no CRM.","no prazo de 15 dias deve ser comunicada ao MPF.","término ocorre por solicitação do MP Municipal."],correct:1,explanation:"Internação involuntária: autorizada por médico registrado no CRM (Lei 10.216/2001). Diferente da compulsória (determinada por juiz). Deve ser comunicada ao Ministério Público ESTADUAL em até 72h."},
+            {id:40,area:"Cirurgia",question:"Homem de 58 anos: dor epigástrica→costas há 2h, progressiva, pós-prandial, náuseas, vômitos, sudorese. Episódios semelhantes último ano melhoravam com analgésico. Tabagista, etilista 8 doses/dia 33 anos. EF: sudoreico, fácies dor, agitado. IMC 23, PA 150x90, FC 74, FR 18, Tax 37°C. Abdome globoso, distendido, timpânico, peristalse presente, dor epigástrio/HE. Diagnóstico provável:",options:["Colangite aguda.","Colecistite aguda.","Doença ulcerosa péptica.","Pancreatite crônica."],correct:3,explanation:"Pancreatite crônica alcoólica: etilismo pesado prolongado, dor epigástrica em faixa/dorso, episódios recorrentes, emagrecimento. Diferente da aguda: dor menos intensa, história longa, exacerbações."},
+            {id:41,area:"Preventiva",question:"Paciente pós-IAM há 3 meses, encaminhado à cardiologia para manejo de antiagregação. Nível de atenção e tipo de prevenção:",options:["Primário; secundário.","Secundário; secundário.","Terciário; terciário.","Quaternário; terciário."],correct:2,explanation:"Atenção terciária = especialistas/alta complexidade. Prevenção terciária = prevenir complicações/recorrências em doença estabelecida. Paciente já teve IAM, objetivo é prevenir novo evento."},
+            {id:42,area:"Preventiva",question:"Mulher de 52 anos, filho morreu atropelado há 3d. Choro, dificuldade dormir, não come. 'Dor no coração insuportável', sonha com pessoa gritando nome filho. Primeiro acolhimento, fica calma. Nega ideação suicida, nunca tratou psiquiatra. Conduta adequada:",options:["ISRS para sintomas depressivos e ansiosos.","Encaminhar CAPS para seguimento intensivo com psiquiatra.","Encaminhar psicologia atenção secundária para terapia psicanalítica breve.","Acompanhar longitudinalmente, observação, apoio equipe UBS."],correct:3,explanation:"Luto agudo/normal (filho falecido há 3 dias): reação esperada, não patológica. Sintomas: tristeza intensa, choro, insônia, anorexia. Conduta: acolhimento, validação sentimentos, acompanhamento longitudinal. Não medicar luto normal."},
+            {id:43,area:"Preventiva",question:"Esquizofrênico de 20 anos acordou 'torto'. Troca risperidona→haloperidol há 5 dias. Contratura cervical e fácies de dor. Diagnóstico e conduta:",options:["Distonia; biperideno IM.","Acatisia; haloperidol IM.","Discinesia tardia; diazepam IM.","Síndrome extrapiramidal; prometazina IM."],correct:0,explanation:"Distonia aguda: contrações musculares involuntárias (torcicolo, opistótono). Comum com antipsicóticos típicos de alta potência (haloperidol), primeiros dias de uso. Tratamento: anticolinérgico (biperideno) IM/IV, resposta rápida."},
+            {id:44,area:"Pediatria",question:"Criança de 7 anos, 4ª semana de quimioterapia (LLA), febre há 12h, tosse, dispneia. Após 24h: febril, PA 90x60, FC 130, FR 36, boa perfusão. Lactato elevado, acidose metabólica. Diagnóstico:",options:["sepse.","choque séptico.","disfunção de múltiplos órgãos.","SIRS."],correct:0,explanation:"Sepse pediátrica: infecção + disfunção orgânica (lactato elevado, acidose). Não é choque pois mantém PA adequada e boa perfusão. Diurese preservada. Neutropenia febril complicada com sepse em oncológico."},
+            {id:45,area:"Clínica Médica",question:"Homem de 50 anos: astenia, constipação com fezes em fita, perda 10kg/6m. Edema MMII até raiz crural, pouca melhora com elevação. Achados laboratoriais necessários para definir síndrome renal:",options:["Proteinúria 24h = 3,6g e albumina = 1,8 g/dL.","Proteinúria 24h = 3,6g e TG = 200 mg/dL.","Hematúria e TG = 200 mg/dL.","Hematúria e albumina = 1,8 g/dL."],correct:0,explanation:"Síndrome nefrótica: proteinúria > 3,5g/24h + hipoalbuminemia < 3g/dL. Edema importante sugere hipoalbuminemia grave. Fezes em fita + emagrecimento sugerem neoplasia colônica (possível causa paraneoplásica)."},
+            {id:46,area:"Pediatria",question:"RN de 15 dias, termo, síndrome de Down. Peso nascimento 2600g/46cm, atual 2900g/47cm. Para acompanhamento pôndero-estatural, dados devem ser plotados em:",options:["curvas OMS desde nascimento até adolescência.","curvas específicas síndrome de Down desde nascimento.","curvas OMS, corrigindo para síndrome de Down.","curvas OMS até 2 anos, depois curvas específicas Down."],correct:1,explanation:"Crianças com síndrome de Down têm padrão de crescimento diferente. Recomenda-se uso de curvas específicas para síndrome de Down desde o nascimento, pois apresentam menor velocidade de crescimento e ganho ponderal."},
+            {id:47,area:"Ginecologia e Obstetrícia",question:"Adolescente de 16 anos, amenorreia primária. Fenótipo feminino, pelos esparsos. USG: ausência útero. FSH normal, testosterona masculina, cariótipo 46 XY. Diagnóstico:",options:["Disgenesia gonadal.","Malformação Mulleriana.","Obstrução trato genital.","Insensibilidade androgênica."],correct:3,explanation:"Síndrome de insensibilidade androgênica completa: cariótipo 46 XY, fenótipo feminino, testosterona alta (testículos funcionantes), FSH normal, ausência útero/vagina superior. Receptores de andrógenos não funcionam."},
+            {id:48,area:"Clínica Médica",question:"Lactente de 4 meses com vômitos, poliúria, episódios de fraqueza intensa e febre. Ao exame físico, desidratação grave e déficit de crescimento. Osteopenia e raquitismo resistente à vitamina D. O distúrbio ácido básico relacionado é",options:["alcalose respiratória hipoclorêmica.","acidose metabólica hiperclorêmica.","alcalose respiratória hipocalêmica.","acidose metabólica hipercalêmica."],correct:1,explanation:"Quadro de acidose tubular renal. A ATR cursa com acidose metabólica hiperclorêmica (ânion gap normal), perda de bicarbonato ou incapacidade de secretar H+. Raquitismo ocorre por perda de cálcio e fosfato."},
+            {id:49,area:"Clínica Médica",question:"Mulher de 20 anos com poliartrite simétrica há 3 meses (mãos, punhos, cotovelos, joelhos, tornozelos). Rigidez matinal > 2h. Mucosas hipocoradas. Diagnóstico, achado laboratorial e tratamento:",options:["Esclerose sistêmica; CK elevada; prednisona.","Artrite reumatoide; FR positivo; metotrexato.","LES; FAN pontilhado fino denso; cloroquina.","DMTC; FAN pontilhado fino; azatioprina."],correct:1,explanation:"Artrite reumatoide clássica: poliartrite simétrica de pequenas articulações (MCF, IFP, punhos), rigidez matinal >1h, início gradual. Anemia de doença crônica é comum. FR positivo em 70-80%. Tratamento 1ª linha: metotrexato."},
+            {id:50,area:"Clínica Médica",question:"Homem de 45 anos, diabético, ferida plantar há 2 sem, não cicatriza. Eritema, edema, secreção purulenta, exposição óssea. Afebril. Conduta:",options:["Antibiótico oral, curativos, controle glicêmico.","Desbridamento, antibiótico EV, investigar osteomielite.","Aguardar cultura para iniciar antibiótico.","Amputação imediata."],correct:1,explanation:"Pé diabético com sinais de infecção grave (exposição óssea sugere osteomielite). Conduta: desbridamento cirúrgico, antibioticoterapia empírica EV de amplo espectro, investigar osteomielite (RX, RM). Controle glicêmico otimizado."}
+        ];
+
+        // Variáveis globais
+        let currentMode = '';
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let selectedOption = null;
+        let stats = { correct: 0, incorrect: 0 };
+        let isDarkMode = false;
+        let timerInterval = null;
+        let timeRemaining = 0;
+        let selectedArea = 'all';
+
+
+            // Contagem de questões por área
+            const questionsByArea = {
+                'all': 50,
+                'Cirurgia': 8,
+                'Clínica Médica': 19,
+                'Ginecologia e Obstetrícia': 7,
+                'Pediatria': 6,
+                'Preventiva': 10
+            };
+        let answered = false;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            if (savedTheme === 'true') {
+                isDarkMode = true;
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').textContent = '☀️';
+            }
+            renderQuestionsGrid();
+        });
+
+        // Tema
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('themeBtn').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Navegação
+        function voltarInicio() {
+            stopTimer();
+            currentMode = '';
+            currentQuestions = [];
+            currentIndex = 0;
+            selectedOption = null;
+            stats = { correct: 0, incorrect: 0 };
+            answered = false;
+
+            hideAllScreens();
+            document.getElementById('homeScreen').classList.remove('hidden');
+            document.getElementById('homeBtn').classList.add('hidden');
+        }
+
+        function hideAllScreens() {
+            ['homeScreen', 'randomConfig', 'specificConfig', 'questionArea', 'specificFinish', 'statsScreen'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function showRandomConfig() {
+            hideAllScreens();
+            document.getElementById('randomConfig').classList.remove('hidden');
+            selectedArea = 'all';
+            document.querySelectorAll('#areaFilters .filter-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === 0);
+            });
+        }
+
+        function showSpecificConfig() {
+            hideAllScreens();
+            document.getElementById('specificConfig').classList.remove('hidden');
+            selectedArea = 'all';
+            document.getElementById('searchBox').value = '';
+            renderQuestionsGrid();
+        }
+
+        // Slider
+        function updateSliderValue(val) {
+            document.getElementById('sliderValue').textContent = val;
+        }
+
+        // Filtros
+        function selectFilter(btn, area) {
+                selectedArea = area;
+                document.querySelectorAll('#areaFilters .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Atualizar máximo do slider conforme área selecionada
+                const slider = document.getElementById('numQuestions');
+                const sliderValue = document.getElementById('sliderValue');
+                const maxQuestions = questionsByArea[area] || 50;
+
+                slider.max = maxQuestions;
+
+                // Definir um valor inicial adequado para a área
+                // Se máximo <= 10: use o máximo
+                // Se máximo > 10: use metade (mínimo 5)
+                let newValue;
+                if (maxQuestions <= 10) {
+                    newValue = maxQuestions;
+                } else {
+                    newValue = Math.max(5, Math.floor(maxQuestions / 2));
+                }
+
+                slider.value = newValue;
+                sliderValue.textContent = newValue;
+
+                // Atualizar texto "Disponível X questões"
+                const availableText = document.querySelector('.slider-container div[style*="margin-top"]');
+                if (availableText) {
+                    availableText.textContent = 'Disponível: ' + maxQuestions + ' questões';
+                }
+            }
+
+        function filterByArea(btn, area) {
+            selectedArea = area;
+            document.querySelectorAll('#specificConfig .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderQuestionsGrid();
+        }
+
+        function filterQuestions() {
+            renderQuestionsGrid();
+        }
+
+        // Renderizar grid
+        function renderQuestionsGrid() {
+            const grid = document.getElementById('questionsGrid');
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            grid.innerHTML = '';
+
+            let filtered = questions;
+
+            if (selectedArea !== 'all') {
+                filtered = questions.filter(q => q.area === selectedArea);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(q => 
+                    q.question.toLowerCase().includes(searchTerm) ||
+                    q.area.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            filtered.forEach(q => {
+                const btn = document.createElement('button');
+                btn.className = 'question-btn';
+                btn.textContent = q.id;
+                btn.onclick = () => startSpecific(q.id);
+                grid.appendChild(btn);
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 20px; opacity: 0.6;">Nenhuma questão encontrada</p>';
+            }
+        }
+
+        // Iniciar modos
+        function startRandom() {
+            const num = parseInt(document.getElementById('numQuestions').value);
+            const enableTimer = document.getElementById('enableTimer').checked;
+
+            let filtered = questions;
+            if (selectedArea !== 'all') {
+                filtered = questions.filter(q => q.area === selectedArea);
+            }
+
+            if (num > filtered.length) {
+                alert(`Apenas ${filtered.length} questões disponíveis nesta área!`);
+                return;
+            }
+
+            currentMode = 'random';
+            currentQuestions = [...filtered].sort(() => Math.random() - 0.5).slice(0, num);
+            currentIndex = 0;
+            stats = { correct: 0, incorrect: 0 };
+
+            if (enableTimer) {
+                timeRemaining = num * 120;
+                startTimer();
+            }
+
+            hideAllScreens();
+            document.getElementById('questionArea').classList.remove('hidden');
+            document.getElementById('homeBtn').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function startSpecific(questionId) {
+            currentMode = 'specific';
+            currentQuestions = [questions.find(q => q.id === questionId)];
+            currentIndex = 0;
+            stats = { correct: 0, incorrect: 0 };
+
+            hideAllScreens();
+            document.getElementById('questionArea').classList.remove('hidden');
+            document.getElementById('homeBtn').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        // Timer
+        function startTimer() {
+            document.getElementById('timerDisplay').classList.remove('hidden');
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    stopTimer();
+                    alert('⏰ Tempo esgotado!');
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            document.getElementById('timerDisplay').classList.add('hidden');
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            document.getElementById('timerValue').textContent = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // Carregar questão
+        function loadQuestion() {
+            const q = currentQuestions[currentIndex];
+            selectedOption = null;
+            answered = false;
+
+            document.getElementById('questionNum').textContent = `Questão ${q.id}`;
+            document.getElementById('questionCategory').textContent = q.area;
+            document.getElementById('questionText').textContent = q.question;
+
+            const progress = ((currentIndex + 1) / currentQuestions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => selectAndConfirm(idx);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('explanationContainer').innerHTML = '';
+            document.getElementById('explanationContainer').classList.add('hidden');
+            document.getElementById('nextBtnContainer').classList.add('hidden');
+        }
+
+        // Sistema de clique direto
+        function selectAndConfirm(idx) {
+            if (answered) return;
+
+            answered = true;
+            const q = currentQuestions[currentIndex];
+            const buttons = document.querySelectorAll('.option-btn');
+            const isCorrect = idx === q.correct;
+
+            buttons.forEach((btn, i) => {
+                btn.classList.add('disabled');
+                btn.onclick = null;
+
+                if (i === q.correct) {
+                    btn.classList.add('correct');
+                } else if (i === idx && !isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) stats.correct++;
+            else stats.incorrect++;
+
+            const expContainer = document.getElementById('explanationContainer');
+            expContainer.innerHTML = `
+                <div class="explanation-container">
+                    <div class="explanation-card">
+                        <div class="explanation-header">
+                            <span class="explanation-icon">💡</span>
+                            <span>Explicação</span>
+                        </div>
+                        <div class="explanation-content">
+                            ${q.explanation}
+                        </div>
+                    </div>
+                </div>
+            `;
+            expContainer.classList.remove('hidden');
+
+            // Atualizar botão baseado na posição
+            updateNextButton();
+            document.getElementById('nextBtnContainer').classList.remove('hidden');
+        }
+
+        // NOVO: Atualizar texto e estilo do botão baseado se é última questão
+        function updateNextButton() {
+            const isLastQuestion = (currentIndex + 1) === currentQuestions.length;
+            const nextBtn = document.getElementById('nextBtn');
+            const nextBtnText = document.getElementById('nextBtnText');
+
+            if (isLastQuestion) {
+                // Última questão
+                if (currentMode === 'specific') {
+                    nextBtnText.textContent = '✅ Concluir';
+                } else {
+                    nextBtnText.textContent = '📊 Ver Resultado';
+                }
+                nextBtn.className = 'btn btn-finish'; // Cor diferente
+            } else {
+                // Não é a última
+                nextBtnText.textContent = 'Próxima Questão →';
+                nextBtn.className = 'btn btn-success';
+            }
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+
+            if (currentIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            stopTimer();
+            document.getElementById('questionArea').classList.add('hidden');
+            document.getElementById('homeBtn').classList.add('hidden');
+
+            if (currentMode === 'specific') {
+                document.getElementById('specificFinish').classList.remove('hidden');
+            } else {
+                hideAllScreens();
+                document.getElementById('statsScreen').classList.remove('hidden');
+
+                const total = currentQuestions.length;
+                const pct = ((stats.correct / total) * 100).toFixed(1);
+
+                document.getElementById('totalQuestions').textContent = total;
+                document.getElementById('correctAnswers').textContent = stats.correct;
+                document.getElementById('incorrectAnswers').textContent = stats.incorrect;
+                document.getElementById('finalPercentage').textContent = pct + '%';
+            }
+        }
+    </script>
+</body>
+</html>
